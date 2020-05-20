@@ -57,7 +57,19 @@ else:
                             pass
                 else:
                     tabel_list_app = pd.DataFrame(dict_app)
+                    print()
+                    print("===================Tabel List Aplikasi Anti Forensik===================")
                     print(tabel_list_app)
+
+                    if os.path.exists("C:\Program Files (x86)\Oxygen Forensics"):
+                        os.chdir("C:\Program Files (x86)\Oxygen Forensics\Oxygen Forensic Detective\OFD12")
+                        startOxy = subprocess.run(["start", "OxyDetective.exe"], shell=True)
+                        if startOxy.returncode == 0:
+                            print()
+                            print("===================Membuka Oxygen Detective Forensic===================")
+                            print()
+                    else:
+                        print("===================Oxygen Detective Forensic Tidak Ditemukan===================")
             else:
                 print("===================Gagal Bikin List===================")
 
