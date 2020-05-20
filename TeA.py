@@ -57,7 +57,43 @@ else:
                             pass
                 else:
                     tabel_list_app = pd.DataFrame(dict_app)
+                    print("""
+                    TABEL LIST APP ANTI FORENSIK
+                    """)
                     print(tabel_list_app)
+
+                    if os.path.exists("C:\Program Files (x86)\Java"):
+                        for dir in os.listdir("C:\Program Files (x86)\Java"):
+                            if "jre" in dir:
+                                jre = re.search(r"(jre.*)", dir)
+                                jreFolder = jre.group(1)
+
+                                javaExec = os.path.join("C:\Program Files (x86)\Java", jreFolder, "bin", "java.exe")
+                        else:
+                            if os.path.exists("android-backup-extractor"):
+                                print("===================Tunggu Sebentar Lagi Bikin .tar===================")
+                                extract = subprocess.run(
+                                    f'"{javaExec}" -jar "android-backup-extractor\\abe.jar" unpack "hasil_backup/{namaBckup}.ab" "hasil_backup/{namaBckup}.tar"',
+                                    shell=True)
+                                if extract.returncode == 0:
+                                    print()
+                                    print("===================Bikin .tar Beres===================")
+                                    os.chdir("hasil_backup")
+                                    print()
+                                    print("===================Tunggu Sebentar Lagi Ngekstrak===================")
+                                    if os.path.exists("C:\Program Files\WinRAR"):
+                                        ngekstrak = subprocess.run(
+                                            f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar', shell=True)
+                                        if ngekstrak.returncode == 0:
+                                            print()
+                                            print("===================Ngekstrak Beres===================")
+                                    else:
+                                        print()
+                                        print("===================INSTALL WINRAR DULU SANA!!!===================")
+                            else:
+                                print("===================GAADA FOLDER 'android-backup-extractor'===================")
+                    else:
+                        print("===================Belom Install Java===================")
             else:
                 print("===================Gagal Bikin List===================")
 
