@@ -115,6 +115,8 @@ else:
                             for pck in dict_app["Nama Package"]:
                                 ngekstrak = subprocess.run(
                                     f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"apps\{pck}\"*', shell=True)
+                            else:
+                                subprocess.run(f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"shared\"*', shell=True)
                             # if ngekstrak.returncode == 0:
                             #     print()
                             #     print("===================Ngekstrak Beres===================")
