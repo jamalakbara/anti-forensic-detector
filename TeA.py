@@ -11,36 +11,6 @@ except FileNotFoundError:
     ===================GAADA FOLDER PLATFORM-TOOLS===================
    ===================EXTRACT DULU KE DIRECTORY INI===================""")
 else:
-    backupStat = False
-    while not backupStat:
-        if not os.path.exists(os.path.join(BASE_DIR, "hasil_backup")):
-            os.mkdir(os.path.join(BASE_DIR, "hasil_backup"))
-            print("""
-                ===================Belum Pernah Backup Data. Silakan Backup Dulu!!===================
-                """)
-            namaBckup = input("Masukin nama file backup : ")
-
-            print("""
-                ===================Tunggu Sebentar Lagi Nge-Backup Nanti Juga Beres===================
-                     ===================Oiya Jangan Dicabut Hp-nya Nanti Error===================""")
-            print()
-
-            adbCmd = subprocess.run(f"adb backup -apk -shared -all -f ../hasil_backup/{namaBckup}.ab", shell=True)
-
-            if adbCmd.returncode == 0:
-                backupStat = True
-                print("===================BACKUP BERHASIL===================")
-        else:
-            listDir = os.listdir(os.path.join(BASE_DIR, "hasil_backup"))
-            for dir in listDir:
-                cekFile = re.search(r"(\w+)\.ab", dir)
-                if cekFile:
-                    namaBckup = cekFile.group(1)
-                    backupStat = True
-                    print("""
-                        ===================Sudah Pernah Backup Data===================
-                        """)
-
     if not os.path.exists(os.path.join(BASE_DIR, "list_package")):
         os.mkdir(os.path.join(BASE_DIR, "list_package"))
 
@@ -78,55 +48,86 @@ else:
             TABEL LIST APP ANTI FORENSIK
             """)
             print(tabel_list_app)
-
-            if os.path.exists("C:\Program Files (x86)\Java"):
-                for dir in os.listdir("C:\Program Files (x86)\Java"):
-                    if "jre" in dir:
-                        jre = re.search(r"(jre.*)", dir)
-                        jreFolder = jre.group(1)
-
-                        javaExec = os.path.join("C:\Program Files (x86)\Java", jreFolder, "bin", "java.exe")
-                else:
-                    if os.path.exists("android-backup-extractor"):
-                        listDir = os.listdir(os.path.join(BASE_DIR, "hasil_backup"))
-                        tarStat = False
-                        for dir in listDir:
-                            cekFile = re.search(r"(\w+)\.tar", dir)
-                            if cekFile:
-                                namaBckup = cekFile.group(1)
-                                tarStat = True
-                                print("""
-                                ===================Sudah Pernah Backup Data===================
-                                """)
-
-                        if tarStat == False:
-                            print("===================Tunggu Sebentar Lagi Bikin .tar===================")
-                            extract = subprocess.run(
-                                f'"{javaExec}" -jar "android-backup-extractor\\abe.jar" unpack "hasil_backup/{namaBckup}.ab" "hasil_backup/{namaBckup}.tar"',
-                                shell=True)
-                            if extract.returncode == 0:
-                                print()
-                                print("===================Bikin .tar Beres===================")
-
-                        os.chdir("hasil_backup")
-                        print()
-                        print("===================Tunggu Sebentar Lagi Ngekstrak===================")
-                        if os.path.exists("C:\Program Files\WinRAR"):
-                            for pck in dict_app["Nama Package"]:
-                                ngekstrak = subprocess.run(
-                                    f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"apps\{pck}\"*', shell=True)
-                            else:
-                                subprocess.run(f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"shared\"*', shell=True)
-                            # if ngekstrak.returncode == 0:
-                            #     print()
-                            #     print("===================Ngekstrak Beres===================")
-                        else:
-                            print()
-                            print("===================INSTALL WINRAR DULU SANA!!!===================")
-                    else:
-                        print("===================GAADA FOLDER 'android-backup-extractor'===================")
-            else:
-                print("===================Belom Install Java===================")
     else:
         print("===================Gagal Bikin List===================")
 
+    backupStat = False
+    while not backupStat:
+        if not os.path.exists(os.path.join(BASE_DIR, "hasil_backup")):
+            os.mkdir(os.path.join(BASE_DIR, "hasil_backup"))
+            print("""
+                ===================Belum Pernah Backup Data. Silakan Backup Dulu!!===================
+                """)
+            namaBckup = input("Masukin nama file backup : ")
+
+            print("""
+                ===================Tunggu Sebentar Lagi Nge-Backup Nanti Juga Beres===================
+                     ===================Oiya Jangan Dicabut Hp-nya Nanti Error===================""")
+            print()
+
+            adbCmd = subprocess.run(f"adb backup -apk -shared -all -f ../hasil_backup/{namaBckup}.ab", shell=True)
+
+            if adbCmd.returncode == 0:
+                backupStat = True
+                print("===================BACKUP BERHASIL===================")
+        else:
+            listDir = os.listdir(os.path.join(BASE_DIR, "hasil_backup"))
+            for dir in listDir:
+                cekFile = re.search(r"(\w+)\.ab", dir)
+                if cekFile:
+                    namaBckup = cekFile.group(1)
+                    backupStat = True
+                    print("""
+                        ===================Sudah Pernah Backup Data===================
+                        """)
+
+    if os.path.exists("C:\Program Files (x86)\Java"):
+        for dir in os.listdir("C:\Program Files (x86)\Java"):
+            if "jre" in dir:
+                jre = re.search(r"(jre.*)", dir)
+                jreFolder = jre.group(1)
+
+                javaExec = os.path.join("C:\Program Files (x86)\Java", jreFolder, "bin", "java.exe")
+        else:
+            if os.path.exists("android-backup-extractor"):
+                listDir = os.listdir(os.path.join(BASE_DIR, "hasil_backup"))
+                tarStat = False
+                for dir in listDir:
+                    cekFile = re.search(r"(\w+)\.tar", dir)
+                    if cekFile:
+                        namaBckup = cekFile.group(1)
+                        tarStat = True
+                        print("""
+                        ===================Sudah Pernah Backup Data===================
+                        """)
+
+                if tarStat == False:
+                    print("===================Tunggu Sebentar Lagi Bikin .tar===================")
+                    extract = subprocess.run(
+                        f'"{javaExec}" -jar "android-backup-extractor\\abe.jar" unpack "hasil_backup/{namaBckup}.ab" "hasil_backup/{namaBckup}.tar"',
+                        shell=True)
+                    if extract.returncode == 0:
+                        print()
+                        print("===================Bikin .tar Beres===================")
+
+                os.chdir("hasil_backup")
+                print()
+                print("===================Tunggu Sebentar Lagi Ngekstrak===================")
+                if os.path.exists("C:\Program Files\WinRAR"):
+                    for pck in dict_app["Nama Package"]:
+                        ngekstrak = subprocess.run(
+                            f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"apps\{pck}\"*', shell=True)
+                    else:
+                        subprocess.run(
+                            ['C:\Program Files\WinRAR\WinRAR.exe', "x", "-ibck", f"{namaBckup}.tar", r'*"shared\"*'],
+                            shell=True)
+                    # if ngekstrak.returncode == 0:
+                    #     print()
+                    #     print("===================Ngekstrak Beres===================")
+                else:
+                    print()
+                    print("===================INSTALL WINRAR DULU SANA!!!===================")
+            else:
+                print("===================GAADA FOLDER 'android-backup-extractor'===================")
+    else:
+        print("===================Belom Install Java===================")
