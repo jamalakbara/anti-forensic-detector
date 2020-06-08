@@ -65,6 +65,8 @@ else:
                      ===================Oiya Jangan Dicabut Hp-nya Nanti Error===================""")
             print()
 
+            os.chdir("platform-tools")
+
             adbCmd = subprocess.run(f"adb backup -apk -shared -all -f ../hasil_backup/{namaBckup}.ab", shell=True)
 
             if adbCmd.returncode == 0:
@@ -80,6 +82,7 @@ else:
                     print("""
                         ===================Sudah Pernah Backup Data===================
                         """)
+                    os.chdir("platform-tools")
 
     if os.path.exists("C:\Program Files (x86)\Java"):
         for dir in os.listdir("C:\Program Files (x86)\Java"):
@@ -89,6 +92,7 @@ else:
 
                 javaExec = os.path.join("C:\Program Files (x86)\Java", jreFolder, "bin", "java.exe")
         else:
+            os.chdir("../")
             if os.path.exists("android-backup-extractor"):
                 listDir = os.listdir(os.path.join(BASE_DIR, "hasil_backup"))
                 tarStat = False
@@ -119,8 +123,7 @@ else:
                             f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"apps\{pck}\"*', shell=True)
                     else:
                         subprocess.run(
-                            ['C:\Program Files\WinRAR\WinRAR.exe', "x", "-ibck", f"{namaBckup}.tar", r'*"shared\"*'],
-                            shell=True)
+                            f'"C:\Program Files\WinRAR\WinRAR.exe" x -ibck {namaBckup}.tar *"shared\"*', shell=True)
                     # if ngekstrak.returncode == 0:
                     #     print()
                     #     print("===================Ngekstrak Beres===================")
